@@ -1,8 +1,8 @@
 
 %importar los paquetes de optimización
-path(path, './Optimization');
-path(path, './Data');
-load('MedidasPowerMeter_9.mat')
+path(path, '../Optimization');
+path(path, '../Data');
+load('../Datos/MedidasPowerMeter_9.mat');
 %creo el vector de longitudes de onda
 L = 400:0.3906:800-0.3906;
 
@@ -23,8 +23,8 @@ D = zeros(41,1024);
 for i =1:41
     D(i,:) = (2*pi*d.*n(i))./L;
 end
-A = (sin(D./2)).^2;
-A = orth(A');
+Q = (sin(D./2)).^2;
+A = orth(Q');
 disp('Done.');
 
 % este seria el vector de datos que yo tomo

@@ -1,10 +1,9 @@
 %%Load data
-path(path, './Optimization');
-path(path, './Data');
-
-load('MedidasPowerMeter_9.mat');
-WlghAxes = xlsread('Longitudes de onda');
-Phi_measured = xlsread('L4');
+path(path, '../Optimization');
+path(path, '../Data');
+load('../Datos/MedidasPowerMeter_9.mat');
+WlghAxes = xlsread('../Datos/Longitudes de onda');
+Phi_measured = xlsread('../Datos/L4');
 Phi_measured = Phi_measured';
 Measurements_g = ourMeasurements';
 % I_0 = xlsread('Espectro OSL2');
