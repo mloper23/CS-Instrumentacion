@@ -13,18 +13,19 @@ Measurements_g = ourMeasurements';
 %% l2 norm previous to CS
 
 if 0
-    %Fourier transform
-    Phi_transformed = ifftshift(fft(fftshift(Phi_measured,2),[],2),2);
-    Spc_transformed_l2 = pinv(Phi_transformed)*Measurements_g;
-    Spc_l2 = fftshift(fft(ifftshift(Spc_transformed_l2)));
-    
+%Fourier transform
+Phi_transformed = ifftshift(fft(fftshift(Phi_measured,2),[],2),2);
+Spc_transformed_l2 = pinv(Phi_transformed)*Measurements_g;
+Spc_l2 = fftshift(fft(ifftshift(Spc_transformed_l2)));
+
 else
     %Wavelet transform
     for i = 1:size(Measurements_g)
         [Phi_transformed(i,:),cD(i,:)] = dwt(Phi(i,:),'coif3');
     end
-    Spc_transformed_l2 = pinv(Phi_transformed)*Measurements_g;
-    Spc_l2 = idwt(Spc_transformed_l2, zeros(size(Spc_transformed_l2)),'coif3');
+ Spc_transformed_l2 = pinv(Phi_transformed)*Measurements_g;
+ Spc_l2 = idwt(Spc_transformed_l2, zeros(size(Spc_transformed_l2)),'coif3');
 end
 
 
+end

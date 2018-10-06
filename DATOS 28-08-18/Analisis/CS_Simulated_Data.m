@@ -47,8 +47,8 @@ else
     
     tau = 0.0001*max(abs(hRt(Measurements_g)));
     
-    lambda1 = 0.04;
-    tolA = 1e-8;
+    lambda1 = 0.0001;
+    tolA = 1e-4;
     
     [x_twist,x_debias_twist,obj_twist,...
     times_twist,debias_start_twist,mse]= ...
