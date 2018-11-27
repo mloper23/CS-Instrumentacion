@@ -36,6 +36,8 @@ n_spikes = 160;
 x = zeros(n,1);
 q = randperm(n);
 x(q(1:n_spikes)) = sign(randn(n_spikes,1));
+L = 1:n;
+x = (sin(L'./100)).^2;
 
 % measurement matrix
 disp('Building measurement matrix...');

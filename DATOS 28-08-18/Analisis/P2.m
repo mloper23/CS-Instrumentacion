@@ -8,8 +8,8 @@ L = 400:0.3906:800-0.3906;
 
 %aquí cree una función de entrada
 for q = 1:1024
-    f(q) = (sin(L(q)/100).^2+1)/L(q);
-%     f(q) = (besselj(3,L(q)/20)).^6;
+%     f(q) = (sin(L(q)/100).^2+1)/L(q);
+    f(q) = (besselj(3,L(q)/20)).^6;
  end
 
 x = sparse(f);

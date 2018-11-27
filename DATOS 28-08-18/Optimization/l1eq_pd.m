@@ -73,7 +73,7 @@ if (largescale)
 else
   if (norm(A*x0-b)/norm(b) > cgtol)
     disp('Starting point infeasible; using x0 = At*inv(AAt)*y.');
-    opts.POSDEF = true; opts.SYM = true;
+    opts.POSDEF = false; opts.SYM = true;
     [w, hcond] = linsolve(A*A', b, opts);
     if (hcond < 1e-14)
       disp('A*At is ill-conditioned: cannot find starting point');
@@ -137,9 +137,9 @@ while (~done)
   else
     w1p = -(w3 - A*(w1./sigx - w2.*sig2./(sigx.*sig1)));
     H11p = A*(sparse(diag(1./sigx))*A');
-    opts.POSDEF = true; opts.SYM = true;
+    opts.POSDEF = false; opts.SYM = true;
     [dv,hcond] = linsolve(H11p, w1p, opts);
-    if (hcond < 1e-14)
+    if (hcond < 1e-70)
       disp('Matrix ill-conditioned.  Returning previous iterate.  (See Section 4 of notes for more information.)');
       xp = x;
       return
@@ -174,7 +174,7 @@ while (~done)
     suffdec = (norm([rdp; rcp; rpp]) <= (1-alpha*s)*resnorm);
     s = beta*s;
     backiter = backiter + 1;
-    if (backiter > 32)
+    if (backiter > 100)
       disp('Stuck backtracking, returning last iterate.  (See Section 4 of notes for more information.)')
       xp = x;
       return
