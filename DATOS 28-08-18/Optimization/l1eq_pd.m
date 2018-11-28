@@ -139,7 +139,7 @@ while (~done)
     H11p = A*(sparse(diag(1./sigx))*A');
     opts.POSDEF = false; opts.SYM = true;
     [dv,hcond] = linsolve(H11p, w1p, opts);
-    if (hcond < 1e-70)
+    if (hcond < 1e-100)
       disp('Matrix ill-conditioned.  Returning previous iterate.  (See Section 4 of notes for more information.)');
       xp = x;
       return

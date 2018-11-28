@@ -1,6 +1,8 @@
 %%Carga de los datos
 path(path,'C:\Users\USER.DESKTOP-T7S4BCO\Desktop\VI\Instrumentación\DATOS 28-08-18\Optimization');
 path(path, 'C:\Users\USER.DESKTOP-T7S4BCO\Desktop\VI\Instrumentación\TwIST_v2');
+Phi_measured = xlsread('../Datos/L4');
+load('../Datos/MedidasPowerMeter_9.mat');
 
 %%
 %Parámetros
@@ -27,36 +29,24 @@ else
     f = f/max(f);
     c = ifft(f);
     [m,n]= size(f);    
-    k = randi(1024,1,300);
+    k = randi(round(n),1,2*round(n/10));
     q = zeros(1,n);
     q(k) = f(k);
     W = eye(n,n);
-%     for i=1:n
-%         [Phii c] = dwt(W(i,:),'coif3'); %La base que voy a usar!
-%         Phii(i,:) = Phii;
-%     end
-%     Phii = Phii';
-%     [m,n]= size(Phii);
-%     k = randi(round(m),1,round(m/10));
-    if 0
-        Phii = dct(eye(n,n),n ,1);
-        A = Phii(k,:);
-        b = f(k)';
-    %     b = A*f';
-        f0 = A'*b;
-    else
-        %Wavelet transform
-%         [f, ff] = dwt(f,'coif3');
-        I = eye(n,n);
-        for i = 1:n
-            [Phi_transformed(i,:),cD(i,:)] = dwt(I(i,:),'coif3');
-        end
-        Phii = Phi_transformed;
-        A = Phi_transformed(k,:);
-        b = f(k)';
-        f0 = A'*b;
-    end
-    
+    %BASE
+    Phii = dct(eye(n,n));
+    %MATRIZ DE SENSIBILIDAD
+    Psi = Phi_measured';
+    % A=?? Base*Matriz de sensibilidad 
+    A = Psi*Phii;
+    A = dct(Phi_measured');
+   
+%     A = Phii(k,:);
+%     k = randi(round(n),1,41);
+%     b = f(k)';
+    b = A*f';
+%     b = 1e7*idct(ourMeasurements');
+    f0 = A'*b;
 end
     
 if 0
@@ -73,10 +63,10 @@ if 1
     a = norm(A*f0-b)/norm(b);
     f1 = l1eq_pd(f0,A,[],b,1e-8,50,2e3);
     f_rec = Phii*f1;
-    plot(f)
+%     plot(f)
     hold on
     plot(f_rec)
-%     
+    
 else
     x=f';
     hR = @(x) A*x;
@@ -114,4 +104,3 @@ else
     
 end
      
- 

@@ -27,7 +27,7 @@ else
     f = f/max(f);
     c = ifft(f);
     [m,n]= size(f);    
-    k = randi(1024,1,300);
+    k = randi(round(n),1,150);
     q = zeros(1,n);
     q(k) = f(k);
     W = eye(n,n);
@@ -39,22 +39,19 @@ else
 %     [m,n]= size(Phii);
 %     k = randi(round(m),1,round(m/10));
     if 0
-        Phii = dct(eye(n,n),n ,1);
+        Phii = dct(eye(n,n));
         A = Phii(k,:);
         b = f(k)';
     %     b = A*f';
         f0 = A'*b;
     else
         %Wavelet transform
-%         [f, ff] = dwt(f,'coif3');
         I = eye(n,n);
         for i = 1:n
-            [Phi_transformed(i,:),cD(i,:)] = dwt(I(i,:),'coif3');
+            [Phi_transformed(i,:),cD(i,:)] = dwt(eye(i,n),'coif3');
         end
-        Phii = Phi_transformed;
-        A = Phi_transformed(k,:);
+        A = Phii(k,:);
         b = f(k)';
-        f0 = A'*b;
     end
     
 end
@@ -71,7 +68,7 @@ end
 
 if 1
     a = norm(A*f0-b)/norm(b);
-    f1 = l1eq_pd(f0,A,[],b,1e-8,50,2e3);
+    f1 = l1eq_pd(f0,A,[],b,1,50,2e3);
     f_rec = Phii*f1;
     plot(f)
     hold on
